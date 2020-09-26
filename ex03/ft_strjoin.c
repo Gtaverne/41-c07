@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gtaverne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/20 17:47:52 by gtaverne          #+#    #+#             */
-/*   Updated: 2020/09/20 20:34:39 by gtaverne         ###   ########.fr       */
+/*   Created: 2020/09/25 11:37:38 by gtaverne          #+#    #+#             */
+/*   Updated: 2020/09/26 16:16:04 by gtaverne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		ft_len(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (str[i])
@@ -24,58 +24,53 @@ int		ft_len(char *str)
 
 char	*ft_strcat(char *dest, char *src)
 {
-	int	i;
-	int	dest_len;
+	int i;
+	int offset;
 
 	i = 0;
-	while (*(dest + i) != '\0')
+	offset = ft_len(dest);
+	while (src[i])
 	{
+		dest[offset + i] = src[i];
 		i++;
 	}
-	dest_len = i;
-	i = 0;
-	while (*(src + i) != '\0')
-	{
-		dest[dest_len + i] = src[i];
-		i++;
-	}
-	dest[i + dest_len] = '\0';
+	dest[offset + i] = 0;
 	return (dest);
 }
 
-int		nb_sep(char **strs)
+int		total_length(int size, char **strs, char *sep)
 {
-	int	i;
+	int i;
+	int res;
 
+	res = 0;
 	i = 0;
-	while (strs[i] != NULL)
+	while (i < size)
+	{
+		res += ft_len(strs[i]);
 		i++;
-	return (i - 1);
+	}
+	res += (size - 1) * ft_len(sep);
+	return (res);
 }
 
 char	*ft_strjoin(int size, char **strs, char *sep)
 {
 	int		i;
 	char	*tab;
-	int		ns;
+	int		ttal;
 
-	ns = nb_sep(strs);
-	if (size == 0)
-	{
-		tab = malloc(sizeof(char));
-		return (tab);
-	}
-	tab = malloc((size + 1 + ns * ft_len(sep)) * sizeof(char));
-	if (tab == NULL)
-		return (tab);
-	tab[0] = 0;
+	ttal = total_length(size, strs, sep);
+	if (!(tab = malloc(sizeof(char) * (ttal + 1))))
+		return (NULL);
 	i = 0;
-	while (i < ns)
+	tab[0] = 0;
+	while (i < size - 1)
 	{
 		tab = ft_strcat(tab, strs[i]);
 		tab = ft_strcat(tab, sep);
 		i++;
 	}
-	tab = ft_strcat(tab, strs[ns]);
+	tab = ft_strcat(tab, strs[size - 1]);
 	return (tab);
 }

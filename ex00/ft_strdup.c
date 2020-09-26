@@ -6,7 +6,7 @@
 /*   By: gtaverne <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 18:49:38 by gtaverne          #+#    #+#             */
-/*   Updated: 2020/09/20 20:39:23 by gtaverne         ###   ########.fr       */
+/*   Updated: 2020/09/26 16:14:34 by gtaverne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ char	*ft_strdup(char *src)
 	n = 0;
 	while (src[n])
 		n++;
-	copy = malloc(sizeof(char) * (n + 1));
-	if (!copy)
+	if (!(copy = malloc(sizeof(char) * (n + 1))))
 		return (NULL);
 	i = 0;
 	while (i < n)
@@ -30,5 +29,6 @@ char	*ft_strdup(char *src)
 		copy[i] = src[i];
 		i++;
 	}
+	copy[n] = 0;
 	return (copy);
 }
